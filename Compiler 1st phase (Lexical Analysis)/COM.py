@@ -341,12 +341,15 @@ def dfaSAYSUBTO(input_text):
 
     return saysubtotokens, saysubtoerrors
 # Identiffier
-def dfaIdentifier(input_text, identifier_index):
+def dfaIdentifier(input_text, identifier_index, identifier_dict):
 
     state = 'A'
     idtokens = []
     iderrors = []
 
+    if input_text in identifier_dict:
+        idtokens.append(identifier_dict[input_text])
+        return idtokens, iderrors, identifier_index
     
     state = 'A'  
     is_identifier = True 
@@ -381,6 +384,7 @@ def dfaIdentifier(input_text, identifier_index):
 
     if state == 'E' and is_identifier:
         idtokens.append(f"<id,{identifier_index}>")
+        identifier_dict[input_text] = idtokens
         identifier_index += 1  
     elif is_identifier:
         iderrors.append()
@@ -781,6 +785,7 @@ def main():
     tokens = []
     errors = []
     id_counter = 1
+    identifier_dict = {}
 
     # op DFAs
     OPdfas = [
@@ -846,8 +851,15 @@ def main():
             #identifiers
             if not matched:
                 if token.startswith('-') and token.endswith('-') and len(token) > 2:
-                    tokens.append(f"<id,{id_counter}>")
-                    id_counter += 1
+                    if token in identifier_dict:
+                        # Reuse existing token
+                        tokens.append(identifier_dict[token])
+                    else:
+                        # Create a new token and store it
+                        identifier_token = f"<id,{id_counter}>"
+                        identifier_dict[token] = identifier_token
+                        tokens.append(identifier_token)
+                        id_counter += 1
                     matched = True
 
             # unrecognized tokens
