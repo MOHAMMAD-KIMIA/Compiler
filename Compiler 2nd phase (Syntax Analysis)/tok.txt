@@ -1,0 +1,19 @@
+<CON_TK> <|> <id,0> <≠> <id,1> <|> <THEN_TK> <:> <{>
+    <SUB_TK> <(> <id,3> <,> <id,4> <,> <id,5> <)> <{>
+        <GO_TK> <|> <UNTIL_TK> <id,7> <<> <id,8> <|> <{>
+            <GOCON_TK> <|> <WITH_TK> <id,9> <<> <id,0> <UNTIL_TK> <id,1> <≠> <id,59> <NEXT_TK> <id,3> <=> <id,4> <|> <{>
+                <SAYSUBTO_TK> <(> <id,7> <,> <id,3> <)> 
+            <}> <;>
+        <}> <;>
+        <SAYSUBTO_TK> <(> <id,11> <,> <id,20> <)> 
+    <}> <;>
+ <}><;>
+<NOTOK_TK> <{>
+    <SUB_TK> <(> <id,13> <,> <id,28> <)> <{>
+        <GO_TK> <|> <UNTIL_TK> <id,55> <≠> <id,0> <|> <{>
+            <GOCON_TK> <|> <WITH_TK> <id,392> <<> <id,0> <UNTIL_TK> <id,26> <≠> <id,29> <NEXT_TK> <id,41> <=> <id,4> <|> <{>
+                <SAYSUBTO_TK> <(> <id,65> <,> <id,21> <)> 
+            <}> <;>
+        <}> <;>
+    <}> <;>
+<}> <;>
