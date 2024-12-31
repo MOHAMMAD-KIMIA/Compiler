@@ -776,10 +776,313 @@ def dfaFloat(input_text):
     return tokens, errors
 # Numbers (from line 697 to line 773)
 
+# DFA for THEN
+def dfaTHEN(input_text):
+    state = 'X'
+    next_tokens = []
+    next_errors = []
+    position = 0
+
+    for ch in input_text:
+        position += 1
+        match state:
+            case 'X':
+                if ch == 'T':
+                    state = 'Y'
+                elif ch in ALPHABET - {'T'}:
+                    next_errors.append(position)
+                    state = 'Z'
+
+            case 'Y':
+                if ch == 'H':
+                    state = 'Z'
+                elif ch in ALPHABET - {'H'}:
+                    next_errors.append(position)
+                    state = 'Z'
+
+            case 'Z':
+                if ch == 'E':
+                    state = 'A'
+                elif ch in ALPHABET - {'E'}:
+                    next_errors.append(position)
+                    state = 'Z'
+
+            case 'A':
+                if ch == 'N':
+                    next_tokens.append("<THEN_TK>")
+                    state = 'Z'
+
+            case _:
+                next_errors.append(position)
+                break
+
+    if state == 'A':
+        next_tokens.append("<THEN_TK>")
+    return next_tokens, next_errors
+
+
+# DFA for colon (:)
+def dfaColon(input_text):
+    state = 'X'
+    colon_tokens = []
+    colon_errors = []
+    position = 0
+
+    for ch in input_text:
+        position += 1
+        if ch == ':':
+            colon_tokens.append("<:>")
+        else:
+            colon_errors.append(position)
+            break
+
+    return colon_tokens, colon_errors
+
+# DFA for semi colon (,)
+def dfaSemiColon(input_text):
+    state = 'X'
+    semicolon_tokens = []
+    semicolon_errors = []
+    position = 0
+
+    for ch in input_text:
+        position += 1
+        if ch == ',':
+            semicolon_tokens.append("<,>")
+        else:
+            semicolon_errors.append(position)
+            break
+
+    return semicolon_tokens, semicolon_errors
+
+
+# DFA for semicolon (;)
+def dfaSemicolon(input_text):
+    state = 'X'
+    semicolon_tokens = []
+    semicolon_errors = []
+    position = 0
+
+    for ch in input_text:
+        position += 1
+        if ch == ';':
+            semicolon_tokens.append("<;>")
+        else:
+            semicolon_errors.append(position)
+            break
+
+    return semicolon_tokens, semicolon_errors
+
+
+# DFA for left curly brace ({)
+def dfaLeftBrace(input_text):
+    state = 'X'
+    left_brace_tokens = []
+    left_brace_errors = []
+    position = 0
+
+    for ch in input_text:
+        position += 1
+        if ch == '{':
+            left_brace_tokens.append("<{>")
+        else:
+            left_brace_errors.append(position)
+            break
+
+    return left_brace_tokens, left_brace_errors
+
+
+# DFA for pipe symbol (|)
+def dfaPipe(input_text):
+    state = 'X'
+    pipe_tokens = []
+    pipe_errors = []
+    position = 0
+
+    for ch in input_text:
+        position += 1
+        if ch == '|':
+            pipe_tokens.append("<|>")
+        else:
+            pipe_errors.append(position)
+            break
+
+    return pipe_tokens, pipe_errors
+
+
+# DFA for right curly brace (})
+def dfaRightBrace(input_text):
+    state = 'X'
+    right_brace_tokens = []
+    right_brace_errors = []
+    position = 0
+
+    for ch in input_text:
+        position += 1
+        if ch == '}':
+            right_brace_tokens.append("<}>")
+        else:
+            right_brace_errors.append(position)
+            break
+
+    return right_brace_tokens, right_brace_errors
+
+
+# DFA for WITH
+def dfaWITH(input_text):
+    state = 'X'
+    with_tokens = []
+    with_errors = []
+    position = 0
+
+    for ch in input_text:
+        position += 1
+        match state:
+            case 'X':
+                if ch == 'W':
+                    state = 'Y'
+                elif ch in ALPHABET - {'W'}:
+                    with_errors.append(position)
+                    state = 'Z'
+
+            case 'Y':
+                if ch == 'I':
+                    state = 'Z'
+                elif ch in ALPHABET - {'I'}:
+                    with_errors.append(position)
+                    state = 'Z'
+
+            case 'Z':
+                if ch == 'T':
+                    state = 'A'
+                elif ch in ALPHABET - {'T'}:
+                    with_errors.append(position)
+                    state = 'Z'
+
+            case 'A':
+                if ch == 'H':
+                    with_tokens.append("<WITH_TK>")
+                    state = 'Z'
+                elif ch in ALPHABET - {'H'}:
+                    with_errors.append(position)
+                    state = 'Z'
+
+            case _:
+                with_errors.append(position)
+                break
+
+    if state == 'A':
+        with_tokens.append("<WITH_TK>")
+    return with_tokens, with_errors
+
+
+# DFA for UNTIL
+def dfaUNTIL(input_text):
+    state = 'X'
+    until_tokens = []
+    until_errors = []
+    position = 0
+
+    for ch in input_text:
+        position += 1
+        match state:
+            case 'X':
+                if ch == 'U':
+                    state = 'Y'
+                elif ch in ALPHABET - {'U'}:
+                    until_errors.append(position)
+                    state = 'Z'
+
+            case 'Y':
+                if ch == 'N':
+                    state = 'Z'
+                elif ch in ALPHABET - {'N'}:
+                    until_errors.append(position)
+                    state = 'Z'
+
+            case 'Z':
+                if ch == 'T':
+                    state = 'A'
+                elif ch in ALPHABET - {'T'}:
+                    until_errors.append(position)
+                    state = 'Z'
+
+            case 'A':
+                if ch == 'I':
+                    state = 'B'
+                elif ch in ALPHABET - {'I'}:
+                    until_errors.append(position)
+                    state = 'Z'
+
+            case 'B':
+                if ch == 'L':
+                    state = 'C'
+                elif ch in ALPHABET - {'L'}:
+                    until_errors.append(position)
+                    state = 'Z'
+
+            case 'C':
+                if ch == 'T':
+                    until_tokens.append("<UNTIL_TK>")
+                    state = 'Z'
+
+            case _:
+                until_errors.append(position)
+                break
+
+    if state == 'C':
+        until_tokens.append("<UNTIL_TK>")
+    return until_tokens, until_errors
+
+
+# DFA for NEXT
+def dfaNEXT(input_text):
+    state = 'X'
+    next_tokens = []
+    next_errors = []
+    position = 0
+
+    for ch in input_text:
+        position += 1
+        match state:
+            case 'X':
+                if ch == 'N':
+                    state = 'Y'
+                elif ch in ALPHABET - {'N'}:
+                    next_errors.append(position)
+                    state = 'Z'
+
+            case 'Y':
+                if ch == 'E':
+                    state = 'Z'
+                elif ch in ALPHABET - {'E'}:
+                    next_errors.append(position)
+                    state = 'Z'
+
+            case 'Z':
+                if ch == 'X':
+                    state = 'A'
+                elif ch in ALPHABET - {'X'}:
+                    next_errors.append(position)
+                    state = 'Z'
+
+            case 'A':
+                if ch == 'T':
+                    next_tokens.append("<NEXT_TK>")
+                    state = 'Z'
+
+            case _:
+                next_errors.append(position)
+                break
+
+    if state == 'A':
+        next_tokens.append("<NEXT_TK>")
+    return next_tokens, next_errors
+
 def main():
     # Input file
     input_file = r'D:\University\input.txt'
-    with open(input_file, 'r') as infile:
+    with open(input_file, 'r', encoding='utf-8') as infile:
         input_text = infile.readlines()
 
     tokens = []
@@ -787,7 +1090,7 @@ def main():
     id_counter = 1
     identifier_dict = {}
 
-    # op DFAs
+    # Operator DFAs 
     OPdfas = [
         (dfaEquals, "<=>"),
         (dfaAnd, "<×>"),
@@ -799,18 +1102,42 @@ def main():
         (dfaGreater, "<>>"),
         (dfaAssignment, "<Assi>")
     ]
+    
+    # Others DFAs
+    othersList = {
+        "THEN": dfaTHEN,
+        ":": dfaColon,
+        ";": dfaSemicolon,
+        "{": dfaLeftBrace,
+        "|": dfaPipe,
+        "}": dfaRightBrace,
+        "WITH": dfaWITH,
+        "UNTIL": dfaUNTIL,
+        ",": dfaSemiColon,
+        "NEXT": dfaNEXT
+    }
 
-    # Line and word
+    # Keywords DFAs 
+    keywords = {
+        "GO": dfaGO,
+        "CON": dfaCON,
+        "GOCON": dfaGOCON,
+        "SUB": dfaSUB,
+        "SAYSUBTO": dfaSAYSUBTO,
+        "NOTOK": dfaNOTOK
+    }
+
+    # Line and word counters
     line_number = 1
     for line in input_text:
         word_position = 1
         input_tokens = line.split()
         
-        # token in each line
+        # Process each token in the line
         for token in input_tokens:
             matched = False
 
-            # numbers
+            # Handle numbers
             if token.isdigit():
                 tokens.append(f"<{token}>")
                 matched = True
@@ -820,16 +1147,8 @@ def main():
                     tokens.append(f"<{token}>")
                     matched = True
 
-            # keywords
+            # Handle keywords
             if not matched:
-                keywords = {
-                    "GO": dfaGO,
-                    "CON": dfaCON,
-                    "GOCON": dfaGOCON,
-                    "SUB": dfaSUB,
-                    "SAYSUBTO": dfaSAYSUBTO,
-                    "NOTOK": dfaNOTOK,
-                }
                 if token in keywords:
                     keyword_func = keywords[token]
                     keyword_tokens, keyword_errors = keyword_func(token)
@@ -839,16 +1158,27 @@ def main():
                     for error in keyword_errors:
                         errors.append(f"Line {line_number}, Word {word_position}: {error}")
 
-            # operators
+            # Handle others (THEN, :, ;, {, etc.)
             if not matched:
-                for dfa_func, expected_token in OPdfas:
+                if token in othersList:
+                    others_func = othersList[token]
+                    others_tokens, others_errors = others_func(token)
+                    if others_tokens:
+                        tokens.extend(others_tokens)
+                        matched = True
+                    for error in others_errors:
+                        errors.append(f"Line {line_number}, Word {word_position}: {error}")
+
+            # Handle operators
+            if not matched:
+                for dfa_func, _ in OPdfas:
                     dfa_tokens, dfa_errors = dfa_func(token)
                     if dfa_tokens:
                         tokens.extend(dfa_tokens)
                         matched = True
                         break
 
-            #identifiers
+            # Handle identifiers
             if not matched:
                 if token.startswith('-') and token.endswith('-') and len(token) > 2:
                     if token in identifier_dict:
@@ -862,7 +1192,7 @@ def main():
                         id_counter += 1
                     matched = True
 
-            # unrecognized tokens
+            # Handle unrecognized tokens
             if not matched:
                 if "<" in token or ">" in token:
                     errors.append(f"Line {line_number}, Word {word_position}: '{token}' - Cannot be an arithmetic operator")
@@ -873,18 +1203,19 @@ def main():
 
         line_number += 1
 
-    # output file
+    # Output to file
     output_file = r'D:\University\output.txt'
     with open(output_file, 'w', encoding='utf-8') as outfile:
         # Write tokens
         for token in tokens:
             outfile.write(f"{token}\n")
         
-        # errors
+        # Write errors
         if errors:
             outfile.write("\nErrors:\n")
             for error in errors:
                 outfile.write(f"{error}\n")
+    
 
     if tokens:
         print("Tokens:", tokens)
